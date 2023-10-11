@@ -1,0 +1,27 @@
+schema: workflow/2022.04
+name: Test1
+settings:
+  error_notification: true
+triggers:
+- id: ei_wrT2Kl
+steps:
+- namespace: generate_text
+  runtime: nodejs18.x
+  uses: google_palm_api-generate-text@0.0.1
+  props:
+    palm:
+      authProvisionId: apn_eahKoma
+    promptText: 'Summarize the following email in two to three sentences: {{steps.trigger.event.body.text}}'
+- namespace: create_message
+  runtime: nodejs18.x
+  uses: "./create_message/entry.js"
+- namespace: send_sms
+  runtime: nodejs18.x
+  uses: twilio-send-sms@0.1.3
+  props:
+    twilio:
+      authProvisionId: apn_7rhaLG
+    from: "+18556774045"
+    to: "+13374128987"
+    body: "{{steps.create_message.$return_value}}"
+
