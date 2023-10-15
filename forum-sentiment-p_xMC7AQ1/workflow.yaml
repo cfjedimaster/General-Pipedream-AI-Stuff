@@ -1,0 +1,19 @@
+schema: workflow/2022.04
+name: Forum Sentiment
+settings:
+  error_notification: true
+triggers:
+- id: ti_gvT7eEX
+steps:
+- namespace: merge_rss_feeds
+  runtime: nodejs18.x
+  uses: rss-merge-rss-feeds@1.2.3
+  props:
+    urls:
+    - 'https://community.adobe.com/havfw69955/rss/Category?category.id=ct-Document-Cloud-SDK&interaction.style=forum
+
+      '
+- namespace: makeArrayOfInputs
+  runtime: nodejs18.x
+  uses: "./makeArrayOfInputs/entry.js"
+
