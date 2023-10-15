@@ -52,7 +52,7 @@ export default defineComponent({
 
   async run({ steps, $ }) {
     let promises = [];
-    steps.makeArrayOfInputs.forEach(p => {
+    steps.makeArrayOfInputs.$return_value.forEach(p => {
       promises.push(getSentiment(p, process.env.PALM_KEY))
     });
     console.log('made my calls');
