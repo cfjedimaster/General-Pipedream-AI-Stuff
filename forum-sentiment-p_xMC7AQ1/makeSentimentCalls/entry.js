@@ -55,11 +55,18 @@ export default defineComponent({
     steps.makeArrayOfInputs.forEach(p => {
       promises.push(getSentiment(p, process.env.PALM_KEY))
     });
+    console.log('made my calls');
 
     let initialresults = await Promise.allSettled(promises);
-
-    results.forEach(r => {
-
+    let results = [];
+    initialResults.forEach(r => {
+      if(r.status === 'fulfilled') {
+          results.push(r.value);
+      } else {
+        results.push('Error');
+      }
     });
+
+    return results;
   },
 })
