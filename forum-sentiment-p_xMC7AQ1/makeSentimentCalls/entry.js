@@ -44,6 +44,7 @@ async function getSentiment(s, key) {
   });
 
   //To do, check for len of candidates and if zero, return ''
+  if(result[0].candidates.length === 0) return ''; 
   return result[0].candidates[0].output;
 }
 
@@ -55,9 +56,8 @@ export default defineComponent({
     steps.makeArrayOfInputs.$return_value.forEach(p => {
       promises.push(getSentiment(p, process.env.PALM_KEY))
     });
-    console.log('made my calls');
 
-    let initialresults = await Promise.allSettled(promises);
+    let initialResults = await Promise.allSettled(promises);
     let results = [];
     initialResults.forEach(r => {
       if(r.status === 'fulfilled') {
