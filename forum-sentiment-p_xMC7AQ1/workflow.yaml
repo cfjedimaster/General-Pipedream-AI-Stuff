@@ -16,4 +16,7 @@ steps:
 - namespace: makeArrayOfInputs
   runtime: nodejs18.x
   uses: "./makeArrayOfInputs/entry.js"
+- namespace: makeSentimentCalls
+  runtime: nodejs18.x
+  uses: "./makeSentimentCalls/entry.js"
 
