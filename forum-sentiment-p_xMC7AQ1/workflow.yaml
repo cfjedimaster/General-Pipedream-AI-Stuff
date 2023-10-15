@@ -19,4 +19,7 @@ steps:
 - namespace: makeSentimentCalls
   runtime: nodejs18.x
   uses: "./makeSentimentCalls/entry.js"
+- namespace: craft_email
+  runtime: nodejs18.x
+  uses: "./craft_email/entry.js"
 
