@@ -22,4 +22,11 @@ steps:
 - namespace: craft_email
   runtime: nodejs18.x
   uses: "./craft_email/entry.js"
+- namespace: send_email_to_self
+  runtime: nodejs18.x
+  uses: email-send-email-to-self@0.4.4
+  props:
+    subject: Forum Sentiment Analysis
+    text: "{{steps.craft_email.$return_value}}"
+    html: "{{steps.craft_email.$return_value}}"
 
