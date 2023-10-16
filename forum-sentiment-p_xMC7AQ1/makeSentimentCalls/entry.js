@@ -61,6 +61,7 @@ export default defineComponent({
     let results = [];
     initialResults.forEach(r => {
       if(r.status === 'fulfilled') {
+          if(r.value === '') r.value = 'Neutral';
           results.push(r.value);
       } else {
         results.push('Error');
