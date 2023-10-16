@@ -27,7 +27,7 @@ export default defineComponent({
     let email = `
 <h2>Forum Sentiment Analysis</h2>
 <p>
-Report generated on ${date}. Analyzing ${steps.merge_rss_feeds.$return_value.length} recent posts.
+Report generated on ${date}. Analyzing ${steps.makeSentimentCalls.$return_value.length} recent posts.
 </p>
 
 <p>
