@@ -1,0 +1,19 @@
+schema: workflow/2022.04
+name: Blackjack Help
+inactive: true
+settings:
+  error_notification: true
+triggers:
+- id: hi_wWHKl3R
+steps:
+- namespace: generate_text
+  runtime: nodejs18.x
+  uses: google_palm_api-generate-text@0.0.1
+  props:
+    palm:
+      authProvisionId: apn_eahKoma
+    promptText: "{{steps.trigger.event.query.text}}"
+- namespace: code
+  runtime: nodejs18.x
+  uses: "./code/entry.js"
+
