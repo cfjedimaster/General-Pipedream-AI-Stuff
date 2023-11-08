@@ -12,7 +12,7 @@ steps:
     palm:
       authProvisionId: apn_eahKoma
     promptText: "{{steps.trigger.event.query.text}}"
-- namespace: code
+- namespace: returnResponse
   runtime: nodejs18.x
-  uses: "./code/entry.js"
+  uses: "./returnResponse/entry.js"
 
