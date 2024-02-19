@@ -1,0 +1,41 @@
+schema: workflow/2022.04
+name: Identify and Sort Screenshots
+settings:
+  error_notification: true
+  lambda_timeout: 120
+triggers:
+- id: dc_bPu7zxb
+steps:
+- namespace: download_file_to_tmp
+  runtime: nodejs20.x
+  uses: helper_functions-download-file-to-tmp@0.3.0
+  props:
+    url: "{{steps.trigger.event.link}}"
+    filename: "{{steps.trigger.event.name}}"
+- namespace: ask_gemini_to_identify_game
+  runtime: nodejs20.x
+  uses: "./ask_gemini_to_identify_game/entry.js"
+- namespace: create_folder
+  runtime: nodejs20.x
+  uses: dropbox-create-folder@0.0.8
+  props:
+    dropbox:
+      authProvisionId: apn_LMho37
+    name: "{{steps.ask_gemini_to_identify_game.$return_value.trim()}}"
+    path:
+      __lv:
+        label: "/SSOut"
+        value: "/SSOut"
+    autorename: true
+- namespace: upload_file
+  runtime: nodejs20.x
+  uses: dropbox-upload-file@0.0.11
+  props:
+    dropbox:
+      authProvisionId: apn_LMho37
+    path: "/SSOut/{{steps.ask_gemini_to_identify_game.$return_value.trim()}}"
+    name: "{{`${(new Date()).getDate()}-${(new Date()).getMonth()+1}-${(new Date()).getFullYear()}-${(new
+      Date()).getHours()}-${(new Date()).getMinutes()}-${(new Date()).getSeconds()}-${(new
+      Date()).getMilliseconds()}.png`}}"
+    filePath: "{{steps.download_file_to_tmp.$return_value[1]}}"
+
