@@ -1,0 +1,60 @@
+schema: workflow/2022.04
+name: Monitor Available Models
+settings:
+  error_notification: true
+triggers:
+- id: ti_XXTXGgR
+steps:
+- namespace: getModels
+  runtime: nodejs20.x
+  uses: "./getModels/entry.js"
+- namespace: get_record_or_create
+  runtime: nodejs20.x
+  uses: data_stores-get-record-or-create@0.0.10
+  _props_cursor: dyp_m0URm6V
+  props:
+    dataStore:
+      storeId: ds_l6ujg2
+    key: models
+    addRecordIfNotFound: 'Yes'
+    value: "[]"
+- namespace: findMissingModels
+  notes: Given an array of existing model names from our cache, I first check to see
+    if any model is not listed in the new list.
+  runtime: nodejs20.x
+  uses: "./findMissingModels/entry.js"
+- namespace: findNewModels
+  notes: What models were returned in the API that don't exist in the cache.
+  runtime: nodejs20.x
+  uses: "./findNewModels/entry.js"
+- namespace: continue_based_on_condition
+  runtime: nodejs20.x
+  uses: filter-continue-based-on-condition@0.0.2
+  _props_cursor: dyp_xpU5B71
+  props:
+    initialValue: "{{steps.findNewModels.$return_value.length >= 1 || steps.findMissingModels.$return_value.length
+      >= 1}}"
+    condition: 'TRUE'
+- namespace: checkIfDone
+  disabled: true
+  runtime: nodejs20.x
+  uses: "./checkIfDone/entry.js"
+- namespace: generateEmail
+  runtime: nodejs20.x
+  uses: "./generateEmail/entry.js"
+- namespace: send_email_to_self
+  runtime: nodejs20.x
+  uses: email-send-email-to-self@0.4.4
+  props:
+    subject: Google Gemini Model Updates
+    text: "{{steps.generateEmail.$return_value}}"
+    html: "{{steps.generateEmail.$return_value}}"
+- namespace: add_update_record
+  runtime: nodejs20.x
+  uses: data_stores-add-update-record@0.0.9
+  props:
+    dataStore:
+      storeId: ds_l6ujg2
+    key: models
+    value: "{{steps.getModels.$return_value}}"
+
