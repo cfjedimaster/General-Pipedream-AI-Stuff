@@ -14,4 +14,20 @@ steps:
 - namespace: item_detection
   runtime: python3.12
   uses: "./item_detection/entry.py"
+- namespace: check_for_targets
+  runtime: python3.12
+  uses: "./check_for_targets/entry.py"
+- namespace: exit_if_no_match
+  runtime: python3.12
+  uses: "./exit_if_no_match/entry.py"
+- namespace: create_email_text
+  runtime: python3.12
+  uses: "./create_email_text/entry.py"
+- namespace: send_email_to_self
+  runtime: nodejs20.x
+  uses: email-send-email-to-self@0.4.4
+  props:
+    subject: Match found in Image
+    text: "{{steps.create_email_text.$return_value.email}}"
+    html: "{{steps.create_email_text.$return_value.email}}"
 
