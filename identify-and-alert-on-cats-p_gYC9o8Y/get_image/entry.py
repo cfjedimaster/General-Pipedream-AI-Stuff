@@ -23,7 +23,6 @@ def handler(pd: "pipedream"):
     # Open the new file /tmp/file.html in binary write mode
     with open(tmpFile, "wb") as file:
         for chunk in response.iter_content(chunk_size=8192):
-            # Write the chunk to file
             file.write(chunk)
           
     return { "path": tmpFile}  
