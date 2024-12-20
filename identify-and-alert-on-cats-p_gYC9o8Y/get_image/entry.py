@@ -13,9 +13,11 @@ def handler(pd: "pipedream"):
     tmpFile = "/tmp/file.png"
   elif mediaType.endswith("jpg"):
     tmpFile = "/tmp/file.jpg"
+  elif mediaType.endswith("jpeg"):
+    tmpFile = "/tmp/file.jpeg"
   else:
-    pd.flow.exit(f"Invalid content type passed, {mediaType}")
-  
+    return pd.flow.exit(f"Invalid content type passed, {mediaType}")
+
   with requests.get(pd.steps["trigger"]["event"]["body"]["raw_body_url"], stream=True) as response:
     # Check if the request was successful
     response.raise_for_status()
