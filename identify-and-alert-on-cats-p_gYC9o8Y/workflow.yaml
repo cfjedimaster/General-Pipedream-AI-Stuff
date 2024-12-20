@@ -1,0 +1,17 @@
+schema: workflow/2022.04
+name: Identify and Alert on Cats
+settings:
+  error_notification: true
+triggers:
+- id: hi_Y4HmWPp
+steps:
+- namespace: get_image
+  runtime: python3.12
+  uses: "./get_image/entry.py"
+- namespace: upload_to_gemini
+  runtime: python3.12
+  uses: "./upload_to_gemini/entry.py"
+- namespace: item_detection
+  runtime: python3.12
+  uses: "./item_detection/entry.py"
+
