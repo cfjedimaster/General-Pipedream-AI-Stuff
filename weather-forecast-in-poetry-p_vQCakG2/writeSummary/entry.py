@@ -4,5 +4,4 @@ The forecast for today is {pd.steps['getForecast']['$return_value']['summary']},
 The high temperature will be {pd.steps['getForecast']['$return_value']['temperatureHigh']}F and a low of {pd.steps['getForecast']['$return_value']['temperatureLow']}F.
   """
 
-  print(summary)
   return summary
