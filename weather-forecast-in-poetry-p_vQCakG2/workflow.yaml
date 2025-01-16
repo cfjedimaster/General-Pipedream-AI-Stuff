@@ -1,0 +1,26 @@
+schema: workflow/2022.04
+name: Weather Forecast in Poetry
+settings:
+  error_notification: true
+triggers:
+- id: ti_elT8pBL
+steps:
+- namespace: defineSettings
+  runtime: python3.12
+  uses: "./defineSettings/entry.py"
+- namespace: getForecast
+  runtime: python3.12
+  uses: "./getForecast/entry.py"
+- namespace: writeSummary
+  runtime: python3.12
+  uses: "./writeSummary/entry.py"
+- namespace: callGenAI
+  runtime: python3.12
+  uses: "./callGenAI/entry.py"
+- namespace: send_email_to_self
+  runtime: nodejs20.x
+  uses: email-send-email-to-self@0.4.4
+  props:
+    subject: Your Forecast
+    text: "{{steps.callGenAI.$return_value}}"
+
