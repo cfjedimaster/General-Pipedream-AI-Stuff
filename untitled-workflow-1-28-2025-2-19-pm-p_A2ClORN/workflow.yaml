@@ -1,0 +1,21 @@
+schema: workflow/2022.04
+name: Customer Service Helper
+settings:
+  error_notification: true
+triggers:
+- id: ei_9nTv4r
+steps:
+- namespace: run_query
+  runtime: python3.12
+  uses: "./run_query/entry.py"
+- namespace: craft_email
+  runtime: python3.12
+  uses: "./craft_email/entry.py"
+- namespace: send_email_to_self
+  runtime: nodejs20.x
+  uses: email-send-email-to-self@0.4.4
+  props:
+    subject: AI Test Response
+    text: "{{steps.craft_email.$return_value}}"
+    html: "{{steps.craft_email.$return_value}}"
+
