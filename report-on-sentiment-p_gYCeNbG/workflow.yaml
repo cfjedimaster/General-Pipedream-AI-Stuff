@@ -1,0 +1,23 @@
+schema: workflow/2022.04
+name: Report on Sentiment
+settings:
+  error_notification: true
+triggers:
+- id: ti_ZyTdMBR
+steps:
+- namespace: getArticles
+  runtime: python3.12
+  uses: "./getArticles/entry.py"
+- namespace: endIfEmpty
+  runtime: python3.12
+  uses: "./endIfEmpty/entry.py"
+- namespace: defineEmail
+  runtime: python3.12
+  uses: "./defineEmail/entry.py"
+- namespace: send_email_to_self
+  runtime: nodejs20.x
+  uses: email-send-email-to-self@0.4.4
+  props:
+    subject: Negative Article Results
+    text: "{{steps.defineEmail.$return_value}}"
+
