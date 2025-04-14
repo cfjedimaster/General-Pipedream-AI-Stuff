@@ -12,7 +12,7 @@ def simplifyEvent(e):
 		event["description"] = e["entity"]["description"]
 	if "startDateTime" in e["entity"]:
 		date = datetime.fromtimestamp(e["entity"]["startDateTime"]["timestamp"] / 1000)
-		event["startDateTime"] = date.strftime("%Y-%m-%d")
+		event["startDateTime"] = date.strftime("%Y-%m-%d %I:%M %p")
 
 	event["name"] = e["entity"]["name"]
 	event["url"] = f"https://{e['entity']['origin']}"
