@@ -7,9 +7,11 @@ def handler(pd: "pipedream"):
   URL = "https://developers.googleblog.com/en/search/?product_categories=Gemini"
 
   fg = FeedGenerator()
-  fg.title('Google Gemini Blog Enties')
-  fg.description('AI Generated RSS Feed for Google Gemini Blog')
-  fg.link(href=URL)
+  fg.title(pd.steps["Define_Constants"]["$return_value"]["title"])
+  fg.description(pd.steps["Define_Constants"]["$return_value"]["description"])
+  fg.link(href=pd.steps["Define_Constants"]["$return_value"]["blogUrl"])
+
+  timezone = pytz_timezone(pd.steps["Define_Constants"]["$return_value"]["blogTZ"])
 
   for entry in pd.steps["Get_Entries"]["$return_value"]:
       fe = fg.add_entry()
@@ -17,7 +19,6 @@ def handler(pd: "pipedream"):
       fe.title(entry["title"])
       fe.link(href=entry["url"])
       date = datetime.fromtimestamp(entry["date"])
-      timezone = pytz_timezone('America/Los_Angeles')
       localized_dt = date.astimezone(timezone)
       fe.published(localized_dt)
 

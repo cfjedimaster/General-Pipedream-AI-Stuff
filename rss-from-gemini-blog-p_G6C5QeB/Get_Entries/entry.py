@@ -10,7 +10,7 @@ def handler(pd: "pipedream"):
     return cachedData
 
   AGENTQL_API_KEY = os.environ.get("AGENTQL_API_KEY")
-  URL = "https://developers.googleblog.com/en/search/?product_categories=Gemini"
+  URL = pd.steps["Define_Constants"]["$return_value"]["blogUrl"]
   
   query = """
   {
