@@ -1,0 +1,22 @@
+schema: workflow/2022.04
+name: RSS from Gemini Blog
+settings:
+  error_notification: true
+triggers:
+- id: hi_99HmYLd
+steps:
+- namespace: Get_Entries
+  runtime: python3.12
+  uses: "./Get_Entries/entry.py"
+- namespace: Make_RSS
+  runtime: python3.12
+  uses: "./Make_RSS/entry.py"
+- namespace: return_http_response
+  runtime: nodejs20.x
+  uses: http-return-http-response@0.0.3
+  props:
+    resStatusCode: 200
+    resHeaders:
+      Content-Type: application/xml
+    resBody: "{{steps.Make_RSS.$return_value}}"
+
