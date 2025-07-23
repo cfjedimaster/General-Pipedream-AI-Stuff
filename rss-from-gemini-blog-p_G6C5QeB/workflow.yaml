@@ -5,6 +5,9 @@ settings:
 triggers:
 - id: hi_99HmYLd
 steps:
+- namespace: Define_Constants
+  runtime: python3.12
+  uses: "./Define_Constants/entry.py"
 - namespace: Get_Entries
   runtime: python3.12
   uses: "./Get_Entries/entry.py"
