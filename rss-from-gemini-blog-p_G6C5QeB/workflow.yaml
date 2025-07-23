@@ -8,6 +8,12 @@ steps:
 - namespace: Get_Entries
   runtime: python3.12
   uses: "./Get_Entries/entry.py"
+  props:
+    __configurableProps:
+    - name: data_store
+      type: data_store
+    data_store:
+      storeId: ds_l6ukdqZ
 - namespace: Make_RSS
   runtime: python3.12
   uses: "./Make_RSS/entry.py"
