@@ -31,9 +31,9 @@ def handler(pd: "pipedream"):
       "X-API-Key":AGENTQL_API_KEY,
       "Content-Type":"application/json"
   }
-
+  print(AGENTQL_API_KEY)
   res = requests.post("https://api.agentql.com/v1/query-data", json=body, headers=headers)
-
+  print(res)
   entries = res.json()["data"]["blogposts"]
   cache.set("entries", entries, ttl=3600)
   return entries
